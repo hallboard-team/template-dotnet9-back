@@ -1,6 +1,2 @@
-# Image_Processing
- * Using SkiaSharp in .NET Core.
- * Having MongoDB Server is requried.
-
-Enjoy using the package... 
-Developed by Rea Taba
+This is a .NET env template for development incorporating Podman. 
+* In the `src` fodler, replace `Image_Processing_WwwRoot` with your project.
