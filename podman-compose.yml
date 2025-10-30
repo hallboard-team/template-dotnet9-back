@@ -1,0 +1,12 @@
+services:
+  back:
+    build:
+      context: .
+      dockerfile: backend/Dockerfile.dev
+    image: ghcr.io/hallboard-team/back-dotnet9-dev:latest
+    container_name: back_dev
+    volumes:
+      - .:/workspaces/back
+    working_dir: /workspaces/back
+    ports:
+      - "5000:5000"

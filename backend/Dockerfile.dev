@@ -1,0 +1,9 @@
+# ARG value Can be overwritten by Podman Desktop while building. Default: 9.0
+ARG DOTNET_VERSION=9.0 
+
+FROM mcr.microsoft.com/dotnet/sdk:${DOTNET_VERSION}
+
+WORKDIR /workspaces/back
+EXPOSE 5000
+
+CMD ["sleep", "infinity"]
