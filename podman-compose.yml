@@ -5,15 +5,13 @@ services:
     build:
       context: .
       dockerfile: Dockerfile.dev
-    image: ghcr.io/hallboard-team/back-dotnet9-dev:latest
+      args:
+        DOTNET_VERSION: ${DOTNET_VERSION:-9.0}
+    image: ghcr.io/hallboard-team/back-dotnet${DOTNET_VERSION:-9.0}-dev:latest
     container_name: ${CONTAINER_NAME:-back_dev}
     volumes:
       - .:/workspaces/back
-      - vscode-server-cache:/root/.vscode-server
-      - vscode-user-extensions:/root/.vscode-server/extensions
+      # Shared VS Code cache across all containers / users
+      - ~/.cache/vscode-server:/root/.vscode-server
     ports:
       - "${PORT:-5000}:5000"
-
-volumes:
-  vscode-server-cache:
-  vscode-user-extensions:

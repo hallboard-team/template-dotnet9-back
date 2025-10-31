@@ -1,5 +1,5 @@
 # -------------------------------
-# Base SDK image
+# Base SDK image (dynamic version with default 9.0)
 # -------------------------------
 ARG DOTNET_VERSION=9.0
 FROM mcr.microsoft.com/dotnet/sdk:${DOTNET_VERSION}
@@ -7,57 +7,3 @@ FROM mcr.microsoft.com/dotnet/sdk:${DOTNET_VERSION}
 WORKDIR /workspaces/back
 EXPOSE 5000
 CMD ["sleep", "infinity"]
-
-# -------------------------------
-# Prepare VS Code server folders
-# -------------------------------
-RUN mkdir -p /root/.vscode-server/bin \
- && mkdir -p /root/.vscode-server/extensions
-
-# -------------------------------
-# Pre-install VS Code Server (match host commit)
-# -------------------------------
-ARG VSCODE_COMMIT=7d842fb85a0275a4a8e4d7e040d2625abbf7f084
-RUN curl -L https://update.code.visualstudio.com/commit:${VSCODE_COMMIT}/server-linux-x64/stable \
-    | tar -xz -C /root/.vscode-server/bin \
- && mv /root/.vscode-server/bin/vscode-server-linux-x64 \
-       /root/.vscode-server/bin/${VSCODE_COMMIT}
-
-# -------------------------------
-# Install VS Code CLI (desktop binary)
-# -------------------------------
-RUN apt-get update && apt-get install -y \
-    wget gpg apt-transport-https software-properties-common \
- && wget -qO- https://packages.microsoft.com/keys/microsoft.asc \
-    | gpg --dearmor > /usr/share/keyrings/microsoft.gpg \
- && echo "deb [arch=amd64 signed-by=/usr/share/keyrings/microsoft.gpg] \
-    https://packages.microsoft.com/repos/code stable main" \
-    > /etc/apt/sources.list.d/vscode.list \
- && apt-get update && apt-get install -y code \
- && rm -rf /var/lib/apt/lists/*
-
-# -------------------------------
-# Preinstall common extensions
-# Note: --no-sandbox & --user-data-dir are required when running as root
-# -------------------------------
-ENV CODE_FLAGS="--no-sandbox --user-data-dir=/root/.vscode-user"
-RUN for ext in \
-        ms-dotnettools.csharp \
-        ms-dotnettools.csdevkit \
-        adrianwilczynski.user-secrets \
-        maptz.regionfolder \
-        nurlybekovnt.csharpextensions \
-        adrianwilczynski.user-secrets \
-        formulahendry.auto-close-tag \
-        formulahendry.auto-rename-tag \
-        GitHub.vscode-github-actions \
-        eamodio.gitlens \
-        PKief.material-icon-theme \
-        patcx.vscode-nuget-gallery \
-        johnpapa.vscode-peacock \
-        Gruntfuggly.todo-tree \
-    do code $CODE_FLAGS --install-extension $ext --force; done
-
-# -------------------------------
-# Done
-# -------------------------------
