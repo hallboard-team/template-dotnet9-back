@@ -1,16 +1,18 @@
+version: "3.9"
+
 services:
   back:
     build:
       context: .
-      dockerfile: backend/Dockerfile.dev
+      dockerfile: Dockerfile.dev
     image: ghcr.io/hallboard-team/back-dotnet9-dev:latest
-    container_name: back_dev
+    container_name: ${CONTAINER_NAME:-back_dev}
     volumes:
       - .:/workspaces/back
       - vscode-server-cache:/root/.vscode-server
       - vscode-user-extensions:/root/.vscode-server/extensions
     ports:
-      - "5000:5000"
+      - "${PORT:-5000}:5000"
 
 volumes:
   vscode-server-cache:
