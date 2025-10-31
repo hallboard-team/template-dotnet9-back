@@ -7,6 +7,11 @@ services:
     container_name: back_dev
     volumes:
       - .:/workspaces/back
-    working_dir: /workspaces/back
+      - vscode-server-cache:/root/.vscode-server
+      - vscode-user-extensions:/root/.vscode-server/extensions
     ports:
       - "5000:5000"
+
+volumes:
+  vscode-server-cache:
+  vscode-user-extensions:

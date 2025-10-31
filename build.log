@@ -1,0 +1,37 @@
+podman-compose version: 1.0.6
+['podman', '--version', '']
+using podman version: 4.9.3
+podman build -f ./backend/Dockerfile.dev -t ghcr.io/hallboard-team/back-dotnet9-dev:latest .
+STEP 1/10: FROM mcr.microsoft.com/dotnet/sdk:9.0
+STEP 2/10: WORKDIR /workspaces/back
+--> Using cache 10a58c04958710b73c109804a0a74eeffee6b20ddf0babf31984b94c134b239d
+--> 10a58c049587
+STEP 3/10: EXPOSE 5000
+--> Using cache 3fd22b8df12b3a82a1e00c82d615090f3cd3bcc6fd85b00139e68461323b20ec
+--> 3fd22b8df12b
+STEP 4/10: CMD ["sleep", "infinity"]
+--> Using cache 689f738ef2a10dadbf7d56abbf350d9c7d6ef3d088e8c0d4e34c87de8102a544
+--> 689f738ef2a1
+STEP 5/10: RUN mkdir -p /root/.vscode-server/bin  && mkdir -p /root/.vscode-server/extensions
+--> Using cache abe4fd19b8c56d2f127cee04bd8599ae2e3a363bba1f877406f5cd327bcc03e7
+--> abe4fd19b8c5
+STEP 6/10: ARG VSCODE_COMMIT=7d842fb85a0275a4a8e4d7e040d2625abbf7f084
+--> Using cache 99b6cce8d80aa4239c93d679045fe92288a3f4c4e43cacb8a8a7cd92b391d864
+--> 99b6cce8d80a
+STEP 7/10: RUN curl -L https://update.code.visualstudio.com/commit:${VSCODE_COMMIT}/server-linux-x64/stable     | tar -xz -C /root/.vscode-server/bin  && mv /root/.vscode-server/bin/vscode-server-linux-x64        /root/.vscode-server/bin/${VSCODE_COMMIT}
+--> Using cache 5fda4d83cdf074031d14348a86f9e6f9bd1fb4b153dfec766c2e2412920e4c18
+--> 5fda4d83cdf0
+STEP 8/10: RUN apt-get update && apt-get install -y     wget gpg apt-transport-https software-properties-common  && wget -qO- https://packages.microsoft.com/keys/microsoft.asc     | gpg --dearmor > /usr/share/keyrings/microsoft.gpg  && echo "deb [arch=amd64 signed-by=/usr/share/keyrings/microsoft.gpg]     https://packages.microsoft.com/repos/code stable main"     > /etc/apt/sources.list.d/vscode.list  && apt-get update && apt-get install -y code  && rm -rf /var/lib/apt/lists/*
+--> Using cache 923486ac2059dca59d69995ba9865aef58537493b5230d42173e4db730ceba3f
+--> 923486ac2059
+STEP 9/10: ENV CODE_FLAGS="--no-sandbox --user-data-dir=/root/.vscode-user"
+--> Using cache cd02050feb9ef8a84fab3c0570e3304b3a49817dd7499beda79b4b6641325e9b
+--> cd02050feb9e
+STEP 10/10: RUN for ext in       esbenp.prettier-vscode       eamodio.gitlens       PKief.material-icon-theme;     do code $CODE_FLAGS --install-extension $ext --force; done
+--> Using cache e8b89bf873b2945727abf18e94da828d0434035c32456a8208854693195d185c
+COMMIT ghcr.io/hallboard-team/back-dotnet9-dev:latest
+--> e8b89bf873b2
+Successfully tagged ghcr.io/hallboard-team/back-dotnet9-dev:latest
+Successfully tagged ghcr.io/hallboard-team/back-dotnet9-dev_2:latest
+e8b89bf873b2945727abf18e94da828d0434035c32456a8208854693195d185c
+exit code: 0
