@@ -1,9 +1,11 @@
 # -------------------------------
-# Base SDK image (dynamic version with default 9.0)
+# Base SDK image (dynamic version)
 # -------------------------------
 ARG DOTNET_VERSION=9.0
 FROM mcr.microsoft.com/dotnet/sdk:${DOTNET_VERSION}
 
-WORKDIR /workspaces/back
-EXPOSE 5000
+RUN useradd -u 1000 -m vscode
+USER 1000:1000
+WORKDIR /workspaces/app
+
 CMD ["sleep", "infinity"]
